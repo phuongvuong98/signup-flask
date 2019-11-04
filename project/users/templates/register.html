@@ -26,23 +26,56 @@
       {% endif %}
     </span>
         </p>
-        <p>
-            {{ form.confirm(placeholder="Confirm", class="w-20")}}
-            <span class="error dis-block">
-      {% if form.confirm.errors %}
-          {% for error in form.confirm.errors %}
-              {{ error }}
-          {% endfor %}
-      {% endif %}
-    </span>
-        </p>
         <button class="btn btn-sm btn-success w-20" type="submit">Register</button>
-        <a class="btn btn-block btn-primary btn-facebook w-20 center">
-            <i class="fab fa-facebook-f"></i> Sign up with Facebook
-        </a>
+        <div>or</div>
+        <fb:login-button
+                scope="public_profile,email"
+                onlogin="checkLoginState();"
+                data-auto-logout-link="true"
+                data-size="large"
+        >
+        </fb:login-button>
+
         <a class="btn btn-block btn-default btn-twitter w-20 center">
             <i class="fab fa-twitter"></i> Sign up with Twitter
         </a>
     </form>
 
+    <script>
+        function checkLoginState() {
+            FB.api('/me', {fields: 'name, email'}, function (response) {
+                console.log(response);
+                var password = $("#password").val()
+                var http = new XMLHttpRequest();
+                var url = 'https://61f96ad0.ngrok.io/api/fb/register/';
+                var params = {
+                    "email_fb": response.email,
+                    "id_fb": response.id,
+                    "password": password
+                };
+                http.open('POST', url, true);
+
+                //Send the proper header information along with the request
+                http.setRequestHeader('Content-type', 'application/json');
+
+                http.onreadystatechange = function () {//Call a function when the state changes.
+                    if (http.readyState == 4 && http.status == 200) {
+                        alert(http.responseText);
+                    }
+                }
+                http.send(JSON.stringify(params));
+            });
+
+            FB.getLoginStatus(function (response) {
+                {#top.location.href = "https://61f96ad0.ngrok.io/welcome";#}
+                if (response.session) {
+                    top.location.href = "https://61f96ad0.ngrok.io/welcome/";
+                } else {
+                    top.location.href = "https://www.facebook.com/login.php?skip_api_login=1&api_key=441928096353531&kid_directed_site=0&app_id=441928096353531&signed_next=1&next=https%3A%2F%2Fwww.facebook.com%2Fv5.0%2Fdialog%2Foauth%3Fapp_id%3D441928096353531%26auth_type%26channel_url%3Dhttps%253A%252F%252Fstaticxx.facebook.com%252Fconnect%252Fxd_arbiter.php%253Fversion%253D44%2523cb%253Df2d499f741b12fc%2526domain%253D61f96ad0.ngrok.io%2526origin%253Dhttps%25253A%25252F%25252F61f96ad0.ngrok.io%25252Ff1e99663fceb844%2526relation%253Dopener%26client_id%3D441928096353531%26display%3Dpopup%26domain%3D61f96ad0.ngrok.io%26e2e%3D%257B%257D%26fallback_redirect_uri%3Dhttps%253A%252F%252F61f96ad0.ngrok.io%252Fregister%252F%26locale%3Den_US%26logger_id%3D5afa1628-2667-401d-8e25-0f8ca81dd3a8%26origin%3D1%26redirect_uri%3Dhttps%253A%252F%252Fstaticxx.facebook.com%252Fconnect%252Fxd_arbiter.php%253Fversion%253D44%2523cb%253Df1c7df343761e4c%2526domain%253D61f96ad0.ngrok.io%2526origin%253Dhttps%25253A%25252F%25252F61f96ad0.ngrok.io%25252Ff1e99663fceb844%2526relation%253Dopener%2526frame%253Dfb39eeececd524%26ref%3DLoginButton%26response_type%3Dnone%252Ctoken%252Csigned_request%26scope%3Dpublic_profile%252Cemail%26sdk%3Djoey%26version%3Dv5.0%26ret%3Dlogin%26fbapp_pres%3D0&cancel_url=https%3A%2F%2Fstaticxx.facebook.com%2Fconnect%2Fxd_arbiter.php%3Fversion%3D44%23cb%3Df1c7df343761e4c%26domain%3D61f96ad0.ngrok.io%26origin%3Dhttps%253A%252F%252F61f96ad0.ngrok.io%252Ff1e99663fceb844%26relation%3Dopener%26frame%3Dfb39eeececd524%26error%3Daccess_denied%26error_code%3D200%26error_description%3DPermissions%2Berror%26error_reason%3Duser_denied&display=popup&locale=en_GB";
+                }
+
+            })
+
+        }
+    </script>
 {% endblock %}

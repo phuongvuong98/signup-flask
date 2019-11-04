@@ -8,21 +8,20 @@ class User(db.Model):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(255), nullable=True)
+    email = db.Column(db.String(255))
     password = db.Column(db.String(255))
-    emailFb = db.Column(db.String(255), nullable=True)
-    emailTw = db.Column(db.String(255), nullable=True)
-    idFb = db.Column(db.Integer)
-    idTw = db.Column(db.Integer)
+    email_fb = db.Column(db.String(255))
+    email_tw = db.Column(db.String(255))
+    id_fb = db.Column(db.String(255))
+    id_tw = db.Column(db.String(255))
 
-    def __init__(self, name, email, password, emailFb, emailTw, idFb, idTw):
-        self.name = name
+    def __init__(self, email, password, email_fb, email_tw, id_fb, id_tw):
         self.email = email
-        self.password = bcrypt.generate_password_hash(password)
-        self.emailFb = emailFb
-        self.emailTw = emailTw
-        self.idFb = idFb
-        self.idTw = idTw
+        self.password = "" if password == bytes("", "utf-8") else bcrypt.generate_password_hash(password)
+        self.email_fb = email_fb
+        self.email_tw = email_tw
+        self.id_fb = id_fb
+        self.id_tw = id_tw
 
     def is_authenticated(self):
         return True

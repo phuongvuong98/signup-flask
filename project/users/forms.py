@@ -16,11 +16,11 @@ class RegisterForm(Form):
     )
     password = PasswordField(
         'password',
-        validators=[DataRequired(), Length(min=6, max=25)]
+        validators=[DataRequired(), Length(min=0, max=25)]
     )
-    confirm = PasswordField(
-        'Repeat password',
-        validators=[
-            DataRequired(), EqualTo('password', message='Passwords must match.')
-        ]
-    )
+    # confirm = PasswordField(
+    #     'Repeat password',
+    #     validators=[
+    #         DataRequired(), EqualTo('password', message='Passwords must match.')
+    #     ]
+    # )

@@ -7,5 +7,11 @@
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://localhost:3306</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="PostgreSQL - dmk1ivsq5p206@ec2-23-21-87-183.compute-1.amazonaws.com" uuid="8348b71d-741c-44da-abc7-3821bcdb90a0">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://ec2-23-21-87-183.compute-1.amazonaws.com:5432/dmk1ivsq5p206</jdbc-url>
+    </data-source>
   </component>
 </project>

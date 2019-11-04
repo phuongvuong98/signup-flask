@@ -7,14 +7,7 @@ from flask.ext.migrate import Migrate, MigrateCommand
 
 from project import app, db
 
-
-# app.config.from_object(os.environ['APP_SETTINGS'])
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+mysqldb://root@localhost:3306/BLOG_EX?charset=utf8mb4"
-app.config['SECRET_KEY'] = '\xbf\xb0\x11\xb1\xcd\xf9\xba\x8bp\x0c...'
-# app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+mysqldb://root:Admin123@35.198.199.71/BLOG?unix_socket=/cloudsql/original-glider-246113:asia-southeast1:data-blog-93123"
-app.config['SQLALCHEMY_ECHO'] = False
-app.config['SQLALCHEMY_RECORD_QUERIES'] = "enable"
-app.config['MYSQL_DATABASE_CHARSET'] = 'utf8mb4'
+app.config.from_object(os.environ['APP_SETTINGS'])
 
 migrate = Migrate(app, db)
 manager = Manager(app)
