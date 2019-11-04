@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1>Register</h1>
+    <br>
+    <form class="form-signin" role="form" method="post" action="">
+        {{ form.csrf_token }}
+        <p>
+            {{ form.email(placeholder="Email", class="w-20") }}
+            <span class="error dis-block">
+      {% if form.email.errors %}
+          {% for error in form.email.errors %}
+              {{ error }}
+          {% endfor %}
+      {% endif %}
+    </span>
+        </p>
+        <p>
+            {{ form.password(placeholder="Password", class="w-20") }}
+            <span class="error dis-block">
+      {% if form.password.errors %}
+          {% for error in form.password.errors %}
+              {{ error }}
+          {% endfor %}
+      {% endif %}
+    </span>
+        </p>
+        <p>
+            {{ form.confirm(placeholder="Confirm", class="w-20")}}
+            <span class="error dis-block">
+      {% if form.confirm.errors %}
+          {% for error in form.confirm.errors %}
+              {{ error }}
+          {% endfor %}
+      {% endif %}
+    </span>
+        </p>
+        <button class="btn btn-sm btn-success w-20" type="submit">Register</button>
+        <a class="btn btn-block btn-primary btn-facebook w-20 center">
+            <i class="fab fa-facebook-f"></i> Sign up with Facebook
+        </a>
+        <a class="btn btn-block btn-default btn-twitter w-20 center">
+            <i class="fab fa-twitter"></i> Sign up with Twitter
+        </a>
+    </form>
+
+{% endblock %}

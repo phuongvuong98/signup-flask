@@ -1,0 +1,15 @@
+.container {
+    text-align: center;
+}
+
+.w-20 {
+    width: 20% !important;
+}
+
+.dis-block {
+    display: block !important;
+}
+
+.center {
+    margin: 2% auto !important;
+}
