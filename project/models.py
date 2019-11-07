@@ -22,7 +22,7 @@ class User(db.Model):
         self.id_tw = id_tw
 
     def hash_password(self, str_psw):
-        if str_psw == None or str_psw == "":
+        if str_psw is None:
             return None
         else:
             str_psw = bcrypt.generate_password_hash(str_psw)

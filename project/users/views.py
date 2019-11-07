@@ -1,34 +1,13 @@
-from flask import flash, redirect, render_template, request, \
-    url_for, Blueprint, Response, json
-from flask.ext.login import login_user, \
-    login_required, logout_user
-
-from .forms import LoginForm, RegisterForm
+from flask import flash, redirect, render_template, Blueprint
+from project.users.oauth import OAuthSignIn
+from .forms import RegisterForm
 from project import db
-from project.models import User, bcrypt
-from functools import wraps
-
+from project.models import User
 
 users_blueprint = Blueprint(
     'users', __name__,
     template_folder='templates'
 )
-
-def to_json(func):
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        get_fun = func(*args, **kwargs)
-        return json.dumps(get_fun)
-
-    return wrapper
-
-
-@users_blueprint.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    flash('You were logged out.')
-    return redirect(url_for('home.welcome'))
 
 
 @users_blueprint.route(
@@ -37,37 +16,44 @@ def register():
     form = RegisterForm()
     if form.validate_on_submit():
         user_exist_fb = User.query.filter_by(email=form.email.data).first()
-        if user_exist_fb == None:
+        if user_exist_fb is None:
             user = User(
                 email=form.email.data,
                 password=form.password.data,
-                email_fb="",
-                email_tw="",
-                id_fb="",
-                id_tw="")
+                email_fb=None,
+                email_tw=None,
+                id_fb=None,
+                id_tw=None)
             db.session.add(user)
             db.session.commit()
             flash('You sign up successful.')
-            return redirect("/register")
-        else: flash('You sign up fail.')
+        else:
+            flash('Your email have already signed up.')
     return render_template('register.html', form=form)
 
-@users_blueprint.route('/api/fb/register', methods=['POST'])
-@to_json
-def registerApiFb():
-    id_fb = request.json['id_fb']
-    email_fb = request.json['email_fb']
-    user_exist_fb = User.query.filter_by(id_fb=id_fb).first()
-    if user_exist_fb == None:
+
+@users_blueprint.route('/authorize/<provider>')
+def oauth_authorize(provider):
+    oauth = OAuthSignIn.get_provider(provider)
+    return oauth.authorize()
+
+
+@users_blueprint.route('/callback/<provider>')
+def oauth_callback(provider):
+    oauth = OAuthSignIn.get_provider(provider)
+    id_social, username, email = oauth.callback()
+    user_exist = User.query.filter_by(email=email).first()
+    if user_exist is None:
         user = User(
-        email=email_fb,
-        password="",
-        email_fb=email_fb,
-        email_tw="",
-        id_fb=id_fb,
-        id_tw="")
+            email=email,
+            password=None,
+            email_fb=email if provider == "facebook" else None,
+            email_tw=email if provider == "twitter" else None,
+            id_fb=id_social if provider == "facebook" else None,
+            id_tw=id_social if provider == "twitter" else None)
         db.session.add(user)
-        # login_user(user.id)
         db.session.commit()
-        return True
-    return False
+        flash('You sign up ' + provider + ' successful. ')
+    else:
+        flash('You have already signed up ' + provider + '.')
+    return redirect('/register')
