@@ -11,7 +11,7 @@ Flask-Script==2.0.5
 Flask-SQLAlchemy==1.0
 Flask-Testing==0.4.2
 Flask-WTF==0.10.2
-gunicorn==19.0.0
+gunicorn==19.5.0
 idna==2.8
 ipython==7.9.0
 ipython-genutils==0.2.0
