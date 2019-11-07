@@ -1,27 +1,11 @@
-#################
-#### imports ####
-#################
-
 from flask import render_template, Blueprint, \
-    request, flash, redirect, url_for   # pragma: no cover
-from flask.ext.login import login_required, current_user   # pragma: no cover
-
-from .forms import MessageForm   # pragma: no cover
-from project import db   # pragma: no cover
-
-################
-#### config ####
-################
+    request, flash, redirect, url_for
+from flask.ext.login import login_required, current_user
 
 home_blueprint = Blueprint(
     'home', __name__,
     template_folder='templates'
 )   # pragma: no cover
-
-
-################
-#### routes ####
-################
 
 # use decorators to link the function to a url
 @home_blueprint.route('/', methods=['GET', 'POST'])   # pragma: no cover

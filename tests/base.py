@@ -1,7 +1,7 @@
 from flask.ext.testing import TestCase
 
 from project import app, db
-from project.models import User, BlogPost
+from project.models import User
 
 
 class BaseTestCase(TestCase):
@@ -13,9 +13,7 @@ class BaseTestCase(TestCase):
 
     def setUp(self):
         db.create_all()
-        db.session.add(User("admin", "ad@min.com", "admin"))
-        db.session.add(
-            BlogPost("Test post", "This is a test. Only a test.", "admin"))
+        db.session.add(User("vuongvuong@gmail.com", "huhu", "", "", "", ""))
         db.session.commit()
 
     def tearDown(self):

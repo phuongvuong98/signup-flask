@@ -1,51 +1,30 @@
-#################
-#### imports ####
-#################
-
 from flask import flash, redirect, render_template, request, \
-    url_for, Blueprint, Response, json  # pragma: no cover
+    url_for, Blueprint, Response, json
 from flask.ext.login import login_user, \
-    login_required, logout_user  # pragma: no cover
+    login_required, logout_user
 
-from .forms import LoginForm, RegisterForm  # pragma: no cover
-from project import db  # pragma: no cover
-from project.models import User, bcrypt  # pragma: no cover
+from .forms import LoginForm, RegisterForm
+from project import db
+from project.models import User, bcrypt
+from functools import wraps
 
-################
-#### config ####
-################
 
 users_blueprint = Blueprint(
     'users', __name__,
     template_folder='templates'
-)  # pragma: no cover
+)
+
+def to_json(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        get_fun = func(*args, **kwargs)
+        return json.dumps(get_fun)
+
+    return wrapper
 
 
-################
-#### routes ####
-################
-
-@users_blueprint.route('/login', methods=['GET', 'POST'])  # pragma: no cover
-def login():
-    error = None
-    form = LoginForm(request.form)
-    if request.method == 'POST':
-        if form.validate_on_submit():
-            user = User.query.filter_by(name=request.form['username']).first()
-            if user is not None and bcrypt.check_password_hash(
-                    user.password, request.form['password']
-            ):
-                login_user(user)
-                flash('You were logged in. Go Crazy.')
-                return redirect(url_for('home.home'))
-
-            else:
-                error = 'Invalid username or password.'
-    return render_template('login.html', form=form, error=error)
-
-
-@users_blueprint.route('/logout')  # pragma: no cover
-@login_required  # pragma: no cover
+@users_blueprint.route('/logout')
+@login_required
 def logout():
     logout_user()
     flash('You were logged out.')
@@ -53,66 +32,42 @@ def logout():
 
 
 @users_blueprint.route(
-    '/register/', methods=['GET', 'POST'])  # pragma: no cover
+    '/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
-        print(form.email.data + " " + form.password.data)
-        user = User(
-            email=form.email.data,
-            password=form.password.data,
-            emailfb="",
-            email_tw="",
-            idfb="",
-            idtw="")
-        try:
+        user_exist_fb = User.query.filter_by(email=form.email.data).first()
+        if user_exist_fb == None:
+            user = User(
+                email=form.email.data,
+                password=form.password.data,
+                email_fb="",
+                email_tw="",
+                id_fb="",
+                id_tw="")
             db.session.add(user)
             db.session.commit()
-        except Exception as ex:
-            return Response(json.dumps({"error": str(ex)}), 500)
-        login_user(user)
-        return redirect("/welcome")
+            flash('You sign up successful.')
+            return redirect("/register")
+        else: flash('You sign up fail.')
     return render_template('register.html', form=form)
 
-@users_blueprint.route(
-    '/api/fb/register/', methods=['POST'])  # pragma: no cover
+@users_blueprint.route('/api/fb/register', methods=['POST'])
+@to_json
 def registerApiFb():
-    """Register a new user.
-
-        Validates that the username is not already taken. Hashes the
-        password for security.
-        """
-
-    email_fb = bytes(request.get_json().get("email_fb", ""), "utf-8")
-    id_fb = bytes(request.get_json().get("id_fb", ""), "utf-8")
-    password = bytes(request.get_json().get("password", ""), "utf-8")
-
-    print("{}".format(email_fb) + " " + "{}".format(id_fb) + "{}".format(password))
-
-    user = User(
+    id_fb = request.json['id_fb']
+    email_fb = request.json['email_fb']
+    user_exist_fb = User.query.filter_by(id_fb=id_fb).first()
+    if user_exist_fb == None:
+        user = User(
         email=email_fb,
-        password=password,
+        password="",
         email_fb=email_fb,
         email_tw="",
         id_fb=id_fb,
         id_tw="")
-    db.session.add(user)
-    db.session.commit()
-
-    # if form.validate_on_submit():
-    #     print(form.email.data + " " + form.password.data)
-    #     user = User(
-    #         email=form.email.data,
-    #         password=form.password.data,
-    #         emailfb="",
-    #         email_tw="",
-    #         idfb="",
-    #         idtw="")
-    #     try:
-    #         db.session.add(user)
-    #         db.session.commit()
-    #     except Exception as ex:
-    #         return Response(json.dumps({"error": str(ex)}), 500)
-    #     login_user(user)
-    return redirect("/welcome")
-    # return render_template('register.html', form=form)
+        db.session.add(user)
+        # login_user(user.id)
+        db.session.commit()
+        return True
+    return False
