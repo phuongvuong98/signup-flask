@@ -3,25 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="afad025e-fdcb-4df4-85a6-1506d4d095f8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/home/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/users/oauth.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/home/forms.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/home/templates/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/home/templates/welcome.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/home/views.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/project/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/static/js/fb_login.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/static/js/fb_sdk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/project/templates/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project/users/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/users/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/users/templates/login.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/users/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/project/users/templates/register.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/users/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/users/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_basic.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_basic.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_users.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_users.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -49,12 +32,6 @@
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
         <item name="@localhost" type="feb32156:DbDataSourceImpl" />
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="@localhost" type="feb32156:DbDataSourceImpl" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="blog_ex: schema" type="76f4a085:MysqlImplModel$Schema" />
       </path>
       <path>
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
@@ -229,7 +206,7 @@
       <workItem from="1572932745266" duration="2243000" />
       <workItem from="1573006805330" duration="12221000" />
       <workItem from="1573028962735" duration="3717000" />
-      <workItem from="1573084098225" duration="8743000" />
+      <workItem from="1573084098225" duration="9558000" />
     </task>
     <servers />
   </component>

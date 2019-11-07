@@ -21,12 +21,13 @@ class User(db.Model):
         self.id_fb = id_fb
         self.id_tw = id_tw
 
+    def __repr__(self):
+        return '<email - {}>'.format(self.email)
+
+    @classmethod
     def hash_password(self, str_psw):
         if str_psw is None:
             return None
         else:
             str_psw = bcrypt.generate_password_hash(str_psw)
             return str_psw
-
-    def __repr__(self):
-        return '<email - {}>'.format(self.email)
