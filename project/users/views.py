@@ -17,13 +17,7 @@ def register():
     if form.validate_on_submit():
         user_exist_fb = User.query.filter_by(email=form.email.data).first()
         if user_exist_fb is None:
-            user = User(
-                email=form.email.data,
-                password=form.password.data,
-                email_fb=None,
-                email_tw=None,
-                id_fb=None,
-                id_tw=None)
+            user = User(email=form.email.data, password=form.password.data)
             db.session.add(user)
             db.session.commit()
             flash('You sign up successful.')
@@ -41,12 +35,11 @@ def oauth_authorize(provider):
 @users_blueprint.route('/callback/<provider>')
 def oauth_callback(provider):
     oauth = OAuthSignIn.get_provider(provider)
-    id_social, username, email = oauth.callback()
+    id_social, email = oauth.callback()
     user_exist = User.query.filter_by(email=email).first()
-    if user_exist is None:
+    if (user_exist is None) and (email is not None):
         user = User(
             email=email,
-            password=None,
             email_fb=email if provider == "facebook" else None,
             email_tw=email if provider == "twitter" else None,
             id_fb=id_social if provider == "facebook" else None,

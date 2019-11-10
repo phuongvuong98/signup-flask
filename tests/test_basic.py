@@ -10,5 +10,6 @@ class FlaskTestCase(BaseTestCase):
         response = self.client.get('/register', follow_redirects=True)
         self.assertIn(b'Register', response.data)
 
+
 if __name__ == '__main__':
     unittest.main()

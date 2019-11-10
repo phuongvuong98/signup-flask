@@ -26,14 +26,14 @@
       {% endif %}
     </span>
         </p>
-        <button class="btn btn-sm btn-success w-20" type="submit">Register</button>
+        <button class="btn btn-sm btn-success w-20" type="submit" id="submit">Register</button>
     </form>
     <br>
     <div>or</div>
 
-    <a class="btn btn-block btn-primary w-20 center" href="{{ url_for('users.oauth_authorize', provider='facebook') }}">Sign
+    <a class="btn btn-block btn-primary w-20 center" href="{{ url_for('users.oauth_authorize', provider='facebook') }}" id="submitFb" target="windowfb">Sign
         up with Facebook</a>
-    <a class="btn btn-block btn-default w-20 center" href="{{ url_for('users.oauth_authorize', provider='twitter') }}">Sign
+    <a class="btn btn-block btn-default w-20 center" href="{{ url_for('users.oauth_authorize', provider='twitter') }}" id="submitTw" target="windowtw">Sign
         up with Twitter</a>
 
 {% endblock %}

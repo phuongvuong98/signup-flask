@@ -15,14 +15,15 @@ class BaseConfig(object):
         'facebook': {
             'id': '441928096353531',
             'secret': 'c34e5e154b6f06cbd9ff5faf397d0981',
-            'callbackUrl': 'https://4082b8a0.ngrok.io/callback/facebook'
+            'callbackUrl': 'https://dcb8d6c5.ngrok.io/callback/facebook'
         },
         'twitter': {
             'id': 'ISds3P54QFGMFlnIUvvsz1Oxo',
             'secret': 'j49QBzc7YqNHuZFNO2YuFcqGcWL1Vn4bEI3UQoOaZEDuRmZN5S',
-            'callbackUrl': 'https://4082b8a0.ngrok.io/callback/twitter'
+            'callbackUrl': 'https://dcb8d6c5.ngrok.io/callback/twitter'
         }
     }
+
 
 class TestConfig(BaseConfig):
     DEBUG = True

@@ -1,5 +1,6 @@
 from project import db
-from project import bcrypt
+from project.utils import Utils
+
 
 class User(db.Model):
 
@@ -13,9 +14,9 @@ class User(db.Model):
     id_fb = db.Column(db.String(255))
     id_tw = db.Column(db.String(255))
 
-    def __init__(self, email, password, email_fb, email_tw, id_fb, id_tw):
+    def __init__(self, email, password=None, email_fb=None, email_tw=None, id_fb=None, id_tw=None):
         self.email = email
-        self.password = self.hash_password(password)
+        self.password = Utils.hash_password(password)
         self.email_fb = email_fb
         self.email_tw = email_tw
         self.id_fb = id_fb
@@ -23,11 +24,3 @@ class User(db.Model):
 
     def __repr__(self):
         return '<email - {}>'.format(self.email)
-
-    @classmethod
-    def hash_password(self, str_psw):
-        if str_psw is None:
-            return None
-        else:
-            str_psw = bcrypt.generate_password_hash(str_psw)
-            return str_psw

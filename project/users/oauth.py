@@ -4,6 +4,8 @@ from builtins import str, super, classmethod, object
 from rauth import OAuth1Service, OAuth2Service
 from flask import current_app, request, redirect, session
 
+from project.utils import Utils
+
 
 class OAuthSignIn(object):
     providers = None
@@ -54,22 +56,18 @@ class FacebookSignIn(OAuthSignIn):
         )
 
     def callback(self):
-        def decode_json(payload):
-            return json.loads(payload.decode('utf-8'))
-
         if 'code' not in request.args:
-            return None, None, None
+            return None, None
 
         oauth_session = self.service.get_auth_session(
             data={'code': request.args['code'],
                   'grant_type': 'authorization_code',
                   'redirect_uri': self.get_callback_url()},
-            decoder=decode_json
+            decoder=Utils.decode_json
         )
         me = oauth_session.get('me', params={'fields': 'id,email'}).json()
         return (
             me['id'],
-            me.get('email').split('@')[0],
             me.get('email')
         )
 
@@ -95,7 +93,7 @@ class TwitterSignIn(OAuthSignIn):
     def callback(self):
         request_token = session.pop('request_token')
         if 'oauth_verifier' not in request.args:
-            return None, None, None
+            return None, None
         oauth_session = self.service.get_auth_session(
             request_token[0],
             request_token[1],
@@ -103,6 +101,5 @@ class TwitterSignIn(OAuthSignIn):
         )
         me = oauth_session.get('account/verify_credentials.json', params={'include_email': 'true'}).json()
         social_id = str(me.get('id'))
-        username = me.get('screen_name')
         email = me.get('email')
-        return social_id, username, email
+        return social_id, email
