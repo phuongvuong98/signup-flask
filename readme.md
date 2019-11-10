@@ -27,6 +27,6 @@ How to run bdd test
 =======================================
 1. Access folder that contain run.py file
 2. Run command
-    > behave features/checkform.feature
-    > behave features/checkfb.feature
-    > behave features/checktw.feature
+    > behave features/checkform.feature <br>
+     behave features/checkfb.feature <br>
+     behave features/checktw.feature
